@@ -5397,3 +5397,90 @@ body {
     margin-right: auto;
   }
 }
+/* ===== Vertical scrolling testimonials ===== */
+.testimonial-marquee {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: 620px;
+  overflow: hidden;
+  /* fade at top and bottom */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+.testimonial-column {
+  overflow: hidden;
+}
+
+.testimonial-track {
+  display: flex;
+  flex-direction: column;
+  animation: testimonialScrollUp 40s linear infinite;
+}
+
+.testimonial-track.reverse {
+  animation-name: testimonialScrollDown;
+  animation-duration: 48s;
+}
+
+/* each card needs bottom margin (not gap) for a seamless loop */
+.testimonial-track .testimonial-card {
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+/* pause when user hovers */
+.testimonial-marquee:hover .testimonial-track {
+  animation-play-state: paused;
+}
+
+@keyframes testimonialScrollUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes testimonialScrollDown {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+
+/* Tablet: 2 columns */
+@media (max-width: 1024px) {
+  .testimonial-marquee {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testimonial-column.col-3 {
+    display: none;
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 640px) {
+  .testimonial-marquee {
+    grid-template-columns: 1fr;
+    height: 560px;
+  }
+  .testimonial-column.col-2 {
+    display: none;
+  }
+}
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-track {
+    animation: none;
+  }
+}
